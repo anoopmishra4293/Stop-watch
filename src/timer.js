@@ -21,7 +21,6 @@ class Timer extends React.Component {
         this.resetClick = this.resetClick.bind(this)
         this.startTimer = this.startTimer.bind(this)
         this.intervalfunc = null;
-        // this.intervalfunc2 = null;
     }
 
 
@@ -72,8 +71,7 @@ class Timer extends React.Component {
         else{
             clearInterval(this.intervalfunc)
         }
-        // clearInterval(this.intervalfunc1)
-        // clearInterval(this.intervalfunc2)
+
         this.setState(state =>({
             breakMinute: 5,
             breakSecond: 0,
@@ -88,18 +86,13 @@ class Timer extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.timerLable != this.state.timerLable && ((this.state.sessionSecond == -1 && this.state.breakSecond == 0) || (this.state.sessionSecond == 0 && this.state.breakSecond == -1)) ) {
-            console.log(prevState.timerLable,this.state.timerLable,this.state.sessionSecond,this.state.breakSecond)
             this.startTimer()
             document.getElementById("beep").play()
-            // document.getElementById("start_stop")
         }
 
         if (prevState.sessionSecond!=this.state.sessionSecond && this.state.sessionMinute == -0 && this.state.sessionSecond == -1) {
-            console.log(" Session minute second both zero")
             this.setState(state =>({
                 timerLable : "Break",
-                // sessionMinute: state.sessionMin,
-                // sessionSecond: 0,
                 breakMinute: state.breakMin,
                 breakSecond: 0,
                 timeRunning: false
@@ -108,12 +101,9 @@ class Timer extends React.Component {
         }
 
         if (prevState.breakSecond!=this.state.breakSecond && this.state.breakMinute == -0 && this.state.breakSecond == -1) {
-            console.log(" Break minute second both zero")
             
             this.setState(state => ({
                 timerLable : "Session",
-                // breakMinute: state.breakMin,
-                // breakSecond: 0,
                 sessionMinute: state.sessionMin,
                 sessionSecond: 0,
                 timeRunning: false
@@ -125,14 +115,7 @@ class Timer extends React.Component {
         
     }
 
-    // state.x = setInterval
-    // when pausing or stopping / refresh => clearinterval(state.x) 
     startTimer() {
-        console.log(123)
-        console.log(typeof(this.state.breakMin),this.state.breakMin)
-        console.log(typeof(this.state.breakMinute),this.state.breakMinute)
-        console.log(typeof(this.state.sessionMin),this.state.sessionMin)
-        console.log(typeof(this.state.sessionMinute),this.state.sessionMinute)
         if (this.state.timerLable == "Session") {
             if (this.state.timeRunning===false) {
                 console.log("session if")
@@ -144,22 +127,15 @@ class Timer extends React.Component {
                 this.intervalfunc = setInterval((a) => {
 
                     --timer
-                    console.log(timer)
                     this.setState ({
                         sessionMinute : parseInt(timer/60),
                         sessionSecond : parseInt(timer%60),
                         timeRunning : true
                     })        
-
-                    console.log(this.state.sessionMinute,this.state.sessionSecond)
-                    
-                    
                 }, 1000);
-                // this.intervalfunc1 = setInterval(this.intervalfunc1,1000)
 
                 
             } else {
-                console.log("session else")
                 clearInterval(this.intervalfunc)            
                 this.setState(state => ({
                     sessionMinute : state.sessionMinute,
@@ -169,35 +145,21 @@ class Timer extends React.Component {
             }
         }
         else {
-            console.log("break",this.state.timerLable, this.state.timeRunning)
             if (this.state.timeRunning==false) {
-            console.log("break if")
-
                 var seconds = this.state.breakSecond
                 var minutes = this.state.breakMinute
                 var timer = minutes*60+seconds;
-                console.log(timer)
                 
                 this.intervalfunc = setInterval((a) => {
                     --timer
-                    console.log(timer)
-
                     this.setState ({
                         breakMinute : parseInt(timer/60),
                         breakSecond : parseInt(timer%60),
                         timeRunning : true
                     })        
-                    console.log(this.state.breakMinute,this.state.breakSecond)
-                    
-                    
                 }, 1000);
 
-                console.log("set interval not working")
-                // this.intervalfunc2 = setInterval(this.intervalfunc2,1000)
-
-                
             } else {
-                console.log("break else")
                 clearInterval(this.intervalfunc)            
                 this.setState(state => ({
                     breakMinute : state.breakMinute,
